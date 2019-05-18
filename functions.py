@@ -1,21 +1,64 @@
 import numpy as np
-import mnist
-from sklearn.model_selection import train_test_split
 from matplotlib import pyplot as plt
-from numpy.linalg import svd, norm
+from numpy.linalg import norm
+
+
+def create_masks(labels):
+
+    """
+    Creates a dictionary with masks for positions
+    of each digit in the matrix containing all images.
+
+    To return a mask for a desired digit, use the digit
+    as a key to the dictionary.
+
+    Example: masks[4] returns mask for digit 4.
+    """
+
+    masks = {}
+
+    for i in range(10):
+        masks[i] = labels == i
+
+    return masks
 
 
 def calculate_residual(z, U):
     return norm((1 - U @ U.T)@z)
 
 
-def find_optimum_k(z, u0, u4):
-    r = []
-    for k in range(2, u0.shape[1]):
-        r0 = calculate_residual(z, u0[:, 0:k])
-        r4 = calculate_residual(z, u4[:, 0:k])
-        r.append(np.abs(r0-r4))
-    return np.argmax(r)+2
+def find_optimum_k(images1, images2, labels, u0, u4, k_list):
+
+    n_correct1 = []
+    n_correct2 = []
+
+    for k in k_list:
+
+        results = np.zeros(len(images1))
+
+        for i, z in enumerate(images1):
+            results[i] = classify_image(z, u0, u4, "zero", "four", k)
+
+        correct = results == labels[0]
+        n_correct1.append(np.sum(correct))
+
+    for k in k_list:
+
+        results = np.zeros(len(images2))
+
+        for i, z in enumerate(images2):
+            s = classify_image(z, u0, u4, "zero", "four", k)
+            print(s)
+            results[i] = s
+        correct = results == labels[1]
+        n_correct2.append(np.sum(correct))
+    n_correct = n_correct1 + n_correct2
+    print(n_correct1)
+    print(n_correct2)
+    print(n_correct)
+    k_index = np.argmax(n_correct)
+
+    return k_list[k_index]
 
 
 def visualize_eigenpatterns(u, k, pattern):
