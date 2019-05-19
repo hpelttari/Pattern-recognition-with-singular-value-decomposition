@@ -2,8 +2,8 @@ import numpy as np
 import mnist
 from matplotlib import pyplot as plt
 from numpy.linalg import svd
-from functions import visualize_eigenpatterns, classify_image, create_masks
-
+from functions import visualize_eigenpatterns, classify_image, create_masks, invert_colors
+from PIL import Image
 
 def main():
     x_train, y_train, x_test, y_test = mnist.load()
@@ -17,6 +17,11 @@ def main():
 
     # masks for a few test images
     masks_test = create_masks(y_test)
+    z1 = plt.imread("zero1.png")
+    z2 = plt.imread("zero2.png")
+    z3 = plt.imread("four.png")
+    plt.imshow(z3, cmap='gray')
+    plt.show()
 
     n_testimages = 500
     # create arrays of test  images
@@ -50,6 +55,10 @@ def main():
 
     correct = results == 1
     print(f"{np.sum(correct)/n_testimages * 100}% correct for fours")
+
+    print(classify_image(z1, u0, u4, "zero", "four", k))
+    print(classify_image(z2, u0, u4, "zero", "four", k))
+    print(classify_image(z3, u0, u4, "zero", "four", k))
 
 
 if __name__ == "__main__":

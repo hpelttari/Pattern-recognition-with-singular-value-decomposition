@@ -9,6 +9,8 @@ def create_masks(labels):
     Creates a dictionary with masks for positions
     of each digit in the matrix containing all images.
 
+    Parameters: numpy array of labelss
+
     To return a mask for a desired digit, use the digit
     as a key to the dictionary.
 
@@ -21,6 +23,16 @@ def create_masks(labels):
         masks[i] = labels == i
 
     return masks
+
+
+def invert_colors(image):
+    for i in range(image.shape[0]):
+        for j in range(image.shape[1]):
+            if image[i][j] == 0:
+                image[i][j] = 1
+            else:
+                image[i][j] = 0
+    return image
 
 
 def calculate_residual(z, U):
