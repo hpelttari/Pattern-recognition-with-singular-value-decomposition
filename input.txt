@@ -1,0 +1,4 @@
+0 4
+zero four
+zero1.png zero2.png four.png
+0 0 4
