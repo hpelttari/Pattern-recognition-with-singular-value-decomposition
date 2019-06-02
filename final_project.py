@@ -17,31 +17,7 @@ def main():
 
     n_testimages = 500
     first_digit, first_digit_test, second_digit, second_digit_test = create_train_test_split(digits, n_testimages)
-    """
-    x_train, y_train, x_test, y_test = mnist.load()
 
-    # create masks for picking the images with right digits
-    masks_train = create_masks(y_train)
-
-    # create arrays of images
-    # the dimensions are n x m so the matrix needs to be transposed
-    first_digit = x_train[masks_train[digits[0]]].T
-    second_digit = x_train[masks_train[digits[1]]].T
-
-    # masks for a few test images
-    masks_test = create_masks(y_test)
-
-    # Read the digits for the actual classification task
-    z1 = imread(filenames[0])
-    z2 = imread(filenames[1])
-    z3 = imread(filenames[2])
-
-    n_testimages = 500
-
-    # create arrays of test  images
-    first_digit_test = x_test[masks_test[digits[0]]][0:n_testimages]
-    second_digit_test = x_test[masks_test[digits[1]]][0:n_testimages]
-    """
     # calculate singular value decompositions for digits zero and four
     u1, _s1, _v1 = svd(first_digit)
     u2, _s2, _v2 = svd(second_digit)
