@@ -1,16 +1,14 @@
-import numpy as np
-import mnist
-from numpy.linalg import svd
-from functions import create_train_test_split, classify_images, assess_classification_results, visualize_eigenpatterns, classify_image, create_masks, test_performance, load_input_data
-from imageio import imread
-from matplotlib import pyplot as plt
 import sys
+from numpy.linalg import svd
+from data_functions import load_input_data, create_train_test_split
+from misc import visualize_eigenpatterns
+from classification_functions import test_performance, classify_images, assess_classification_results
 
 
 def main():
 
     # Read the input file (given as a command line argument)
-    # for the digits to use, their names, 
+    # for the digits to use, their names,
     # filenames and their classes
     input_file = sys.argv[1]
     digits, tags, filenames, image_classes = load_input_data(input_file)
@@ -38,6 +36,7 @@ def main():
 
     # Print out the classification results
     assess_classification_results(classifications, image_classes, filenames)
+
 
 if __name__ == "__main__":
     main()
