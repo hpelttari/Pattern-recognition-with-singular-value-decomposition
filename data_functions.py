@@ -7,7 +7,7 @@ def load_input_data(input_filename):
     """
     Reads the content of the input file to variables.
 
-    The firt line of the input file should contain the two integers
+    The first line of the input file should contain the two integers
     which the images are wanted to classify as, separated by spaces.
 
     The second line should contain the  names of the digits,
@@ -21,7 +21,7 @@ def load_input_data(input_filename):
     the second class. Denote first class with 0, second class with 1,
     and separate withspaces.
 
-    Returns: lists of the digits, names of digits, filenames and clases
+    Returns: lists of the digits, names of digits, filenames and classes
     """
 
     with open(input_filename, "r") as input_file:

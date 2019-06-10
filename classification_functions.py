@@ -7,10 +7,10 @@ def calculate_residual(z, U):
     return norm((1 - U @ U.T)@z)
 
 
-def classify_image(z, u1, u2, k, classes):
+def classify_image(z, u1, u2, k1, k2, classes):
 
-    r1 = calculate_residual(z, u1[:, 0:k])
-    r2 = calculate_residual(z, u2[:, 0:k])
+    r1 = calculate_residual(z, u1[:, 0:k1])
+    r2 = calculate_residual(z, u2[:, 0:k2])
 
     if r1 < r2:
         return classes[0]
@@ -20,14 +20,14 @@ def classify_image(z, u1, u2, k, classes):
     return -1
 
 
-def classify_images(filenames, u1, u2, k, training_classes, image_classes):
+def classify_images(filenames, u1, u2, k1, k2, training_classes, image_classes):
 
     z = read_images(filenames)
     z_flattened = flatten_images(z)
 
     classification_results = []
     for i, image in enumerate(z_flattened):
-        classification_results.append(classify_image(image, u1, u2, k, training_classes))
+        classification_results.append(classify_image(image, u1, u2, k1, k2, training_classes))
 
     return classification_results
 
@@ -44,19 +44,23 @@ def assess_classification_results(classifications, image_classes, filenames):
             print(f"{filenames[i]} misclassified as a {digit_mappings[classification]}!")
 
 
-def test_performance(digit_1_test, digit_2_test, classes, tags, n_testimages, u0, u4, k):
+def test_performance(digit_1_test, digit_2_test, classes, tags, n_testimages, u0, u4, k1, k2, print_results=False):
 
     results = np.zeros(n_testimages)
     for i, image in enumerate(digit_1_test):
-        results[i] = classify_image(image, u0, u4, k, classes)
+        results[i] = classify_image(image, u0, u4, k1, k2, classes)
 
-    correct = results == classes[0]
-    print(f"{np.sum(correct)/n_testimages * 100}% correct for {tags[0]}s")
+    correct1 = results == classes[0]
+    if print_results:
+        print(f"{np.sum(correct1)/n_testimages * 100}% correct for {tags[0]}s")
 
     # Test if fours are correctly classified
     results = np.zeros(n_testimages)
     for i, image in enumerate(digit_2_test):
-        results[i] = classify_image(image, u0, u4, k, classes)
+        results[i] = classify_image(image, u0, u4, k1, k2, classes)
 
-    correct = results == classes[1]
-    print(f"{np.sum(correct)/n_testimages * 100}% correct for {tags[1]}s")
+    correct2 = results == classes[1]
+    if print_results:
+        print(f"{np.sum(correct2)/n_testimages * 100}% correct for {tags[1]}s")
+
+    return (np.sum(correct1)+np.sum(correct2))/(2*n_testimages)
