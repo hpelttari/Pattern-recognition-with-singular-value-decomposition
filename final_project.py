@@ -1,7 +1,7 @@
 import sys
 from numpy.linalg import svd
 from data_functions import load_input_data, create_train_test_split
-from misc import visualize_eigenpatterns, optimum_k, find_k
+from misc import visualize_eigenpatterns, find_optimal_k
 from classification_functions import test_performance, classify_images, assess_classification_results
 
 
@@ -39,7 +39,7 @@ def main():
 
     # Find the optimal cut-off parameter
     print("Finding optimal cut-off parameter...")
-    k = find_k(first_digit_test, second_digit_test, digits, tags, n_testimages, u1, u2)
+    k = find_optimal_k(first_digit_test, second_digit_test, digits, tags, n_testimages, u1, u2)
 
     print(f"Optimal cut-off parameter k is {k}")
 
