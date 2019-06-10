@@ -3,16 +3,6 @@ from classification_functions import classify_image, calculate_residual, test_pe
 from matplotlib import pyplot as plt
 
 
-def invert_colors(image):
-    for i in range(image.shape[0]):
-        for j in range(image.shape[1]):
-            if image[i][j] == 0:
-                image[i][j] = 1
-            else:
-                image[i][j] = 0
-    return image
-
-
 def find_optimal_k(images1, images2, digits, tags, n_images, u1, u2, step_size=1, max_k=50, start_k=1):
     k_list = list(range(start_k, max_k, step_size))
     accuracy = np.zeros(len(k_list))
